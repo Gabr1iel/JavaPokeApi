@@ -8,6 +8,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import org.example.filehandler.ApiHandler;
 import org.example.filehandler.FileHandler;
+import org.example.models.Pokemon;
 import org.example.models.PokemonDeck;
 
 import java.util.*;
@@ -22,7 +23,7 @@ public class PokemonServices  {
         this.pokemonDecksList = fileHandler.loadDecksFromFile();
     }
 
-    public void createPokemon(String pokemonName) {
+    public Pokemon createPokemon(String pokemonName) {
         String jsonResponse = apiHandler.getPokemons(pokemonName);
         List<String> elementTypes = new ArrayList<>();
         List<String> abilities = new ArrayList<>();
@@ -30,6 +31,8 @@ public class PokemonServices  {
 
         String name = json.get("name").getAsString();
         String imgUrl = json.get("sprites").getAsJsonObject().get("front_default").getAsString();
+        Integer weight = json.get("weight").getAsInt();
+        Integer height = json.get("height").getAsInt();
         JsonArray stats = json.get("stats").getAsJsonArray();
         JsonArray abilitiesType = json.get("abilities").getAsJsonArray();
         JsonArray types = json.get("types").getAsJsonArray();
@@ -45,11 +48,13 @@ public class PokemonServices  {
             elementTypes.add(type.get("type").getAsJsonObject().get("name").getAsString());
         }
 
+        Pokemon newPokemon = new Pokemon(name, hp, attack, defense, weight, height, imgUrl, elementTypes, abilities);
         System.out.println("Jméno: " + name);
         System.out.println("HP: " + hp + "Defense: " + defense + "Attack: " + attack);
         System.out.println("URL: " + imgUrl);
         System.out.println("Ability: " + abilities);
         System.out.println("Elementy: " + elementTypes);
+        return newPokemon;
     }
 
     public List<PokemonDeck> getPokemonDecksList() {

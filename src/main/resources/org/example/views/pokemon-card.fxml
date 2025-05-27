@@ -1,0 +1,12 @@
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.controllers.PokemonCardController" styleClass="pokemon-card">
+    <VBox>
+        <ImageView fx:id="pokemonImg" />
+        <Label fx:id="pokemonNameLabel"/>
+        <Label fx:id="pokemonTypeLabel"/>
+    </VBox>
+</VBox>
