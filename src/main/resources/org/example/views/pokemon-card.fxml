@@ -3,10 +3,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Label?>
 
+<?import javafx.scene.layout.HBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.controllers.PokemonCardController" styleClass="pokemon-card">
     <VBox>
+        <HBox styleClass="name-box">
+            <HBox>
+                <Label fx:id="pokemonNameLabel"/>
+            </HBox>
+            <HBox>
+                <Label fx:id="pokemonHpLabel"/>
+                <Label fx:id="pokemonTypeLabel"/>
+            </HBox>
+        </HBox>
         <ImageView fx:id="pokemonImg" />
-        <Label fx:id="pokemonNameLabel"/>
-        <Label fx:id="pokemonTypeLabel"/>
     </VBox>
 </VBox>

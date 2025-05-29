@@ -1,3 +1,9 @@
 .pokemon-card {
-  -fx-background-color: yellow;
+  -fx-max-width: 150px;
+  -fx-min-height: 200px;
+  -fx-background-color: #fced1d;
+  -fx-border-width: 10px;
+  -fx-border-radius: 5px;
+  -fx-border-color: #bec0c0;
+  -fx-background-radius: 5px;
 }

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -27,7 +28,18 @@ public class MainViewController {
 
     @FXML private void initialize() {
         contentPane.getStylesheets().add(getClass().getResource("/org/example/styles/style.css").toExternalForm());
-        hub.getPokemonServices().createPokemon("Bulbasaur");
+        contentPane.setOnMouseClicked(event -> {
+            Node target = (Node) event.getTarget();
+            Node cardNode = findNodeWithClass(target, "pokemon-card");
+
+            if (cardNode != null) {
+                Pokemon p = (Pokemon) cardNode.getUserData();
+                System.out.println(p.getName());
+            } else {
+                deckList.getSelectionModel().clearSelection();
+                contentPane.getChildren().clear();
+            }
+        });
         updateData();
     }
 
@@ -57,6 +69,7 @@ public class MainViewController {
                     try {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/views/pokemon-card.fxml"));
                         Parent cardNode = fxmlLoader.load();
+                        cardNode.setUserData(p);
 
                         PokemonCardController controller = fxmlLoader.getController();
                         controller.setData(p);
@@ -113,4 +126,15 @@ public class MainViewController {
         }
     }
 
+    private Node findNodeWithClass(Node node, String className ) { //hledá jestli elemnt má rodiče s danou třídou
+        Node current = node;
+
+        while (current != null) {
+            if (current.getStyleClass().contains(className)) {
+                return current;
+            }
+            current = current.getParent();
+        }
+        return null;
+    }
 }
