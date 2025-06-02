@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 public class AlertUtils {
-    public static void showErrorAlert(String title, String message) {
+    public void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -14,7 +14,7 @@ public class AlertUtils {
         alert.showAndWait();
     }
 
-    public static boolean showConfirmAlert(String title, String message) {
+    public boolean showConfirmAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

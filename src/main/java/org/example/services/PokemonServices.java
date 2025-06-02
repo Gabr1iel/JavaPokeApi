@@ -15,10 +15,13 @@ import java.util.*;
 public class PokemonServices  {
     private ApiHandler apiHandler;
     private FileHandler fileHandler;
+    private AlertUtils alertUtils;
     private List<PokemonDeck> pokemonDecksList;
 
-    public PokemonServices(ApiHandler apiHandler, FileHandler fileHandler) {
+    public PokemonServices(ApiHandler apiHandler, FileHandler fileHandler, AlertUtils alertUtils) {
         this.apiHandler = apiHandler;
+        this.fileHandler = fileHandler;
+        this.alertUtils = alertUtils;
         this.pokemonDecksList = fileHandler.loadDecksFromFile();
     }
 
@@ -28,7 +31,7 @@ public class PokemonServices  {
         List<String> abilities = new ArrayList<>();
 
         if (jsonResponse == null || jsonResponse.isEmpty()) {
-            AlertUtils.showErrorAlert("Chyba při hledání!", "Žádný výsledek pro pokémona: " + pokemonName);
+            alertUtils.showErrorAlert("Chyba při hledání!", "Žádný výsledek pro pokémona: " + pokemonName);
             throw new InvalidPokemonJsonException("Invalid JSON response" + pokemonName);
         } else {
             JsonObject json = JsonParser.parseString(jsonResponse).getAsJsonObject();

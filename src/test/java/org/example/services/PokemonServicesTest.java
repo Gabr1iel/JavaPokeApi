@@ -1,6 +1,8 @@
 package org.example.services;
 
 import com.google.gson.JsonSyntaxException;
+import org.example.exceptions.InvalidPokemonJsonException;
+import org.example.utils.AlertUtils;
 import org.example.utils.ApiHandler;
 import org.example.utils.FileHandler;
 import org.example.models.Pokemon;
@@ -8,19 +10,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PokemonServicesTest {
     ApiHandler mockApiHandler;
     FileHandler mockFileHandler;
+    AlertUtils mockAlertUtils;
     PokemonServices service;
 
     @BeforeEach
     void setup() {
         mockApiHandler = mock(ApiHandler.class);
         mockFileHandler = mock(FileHandler.class);
-        service = new PokemonServices(mockApiHandler, mockFileHandler);
+        mockAlertUtils = mock(AlertUtils.class);
+        service = new PokemonServices(mockApiHandler, mockFileHandler, mockAlertUtils);
     }
 
     @Test
@@ -99,6 +102,7 @@ public class PokemonServicesTest {
     @Test
     void pokemonServices_ShouldThrowOnNull() {
         when(mockApiHandler.getPokemons("pikachu")).thenReturn(null);
-        assertThrows(NullPointerException.class, () -> service.createPokemon("pikachu"));
+        assertThrows(InvalidPokemonJsonException.class, () -> service.createPokemon("pikachu"));
+        verify(mockAlertUtils).showErrorAlert("Chyba při hledání!", "Žádný výsledek pro pokémona: " + "pikachu");
     }
 }

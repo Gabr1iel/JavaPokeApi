@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.utils.AlertUtils;
 import org.example.utils.ApiHandler;
 import org.example.utils.FileHandler;
 import org.example.services.PokemonServices;
@@ -8,7 +9,8 @@ import org.example.services.PokemonServices;
 public class Hub {
     ApiHandler apiHandler = new ApiHandler();
     FileHandler fileHandler = new FileHandler();
-    PokemonServices pokemonServices = new PokemonServices(apiHandler, fileHandler);
+    AlertUtils alertUtils = new AlertUtils();
+    PokemonServices pokemonServices = new PokemonServices(apiHandler, fileHandler, alertUtils);
 
     public PokemonServices getPokemonServices() {
         return pokemonServices;
