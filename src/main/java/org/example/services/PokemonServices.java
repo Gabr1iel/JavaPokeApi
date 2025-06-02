@@ -49,11 +49,6 @@ public class PokemonServices  {
         }
 
         Pokemon newPokemon = new Pokemon(name, hp, attack, defense, weight, height, imgUrl, elementTypes, abilities);
-        System.out.println("Jméno: " + name);
-        System.out.println("HP: " + hp + "Defense: " + defense + "Attack: " + attack);
-        System.out.println("URL: " + imgUrl);
-        System.out.println("Ability: " + abilities);
-        System.out.println("Elementy: " + elementTypes);
         return newPokemon;
     }
 

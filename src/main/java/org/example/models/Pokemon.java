@@ -49,6 +49,8 @@ public class Pokemon implements Serializable {
     public Integer getDef() {
         return def;
     }
+    public Integer getWeight() { return weight; }
+    public Integer getHeight() { return height; }
     public List<String> getAbilities() {
         return abilities;
     }
