@@ -20,4 +20,7 @@ public class PokemonDeck implements Serializable {
     public List<Pokemon> getPokemons() {
         return pokemons;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -6,22 +6,26 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.FlowPane;
+import org.example.utils.AlertUtils;
 import org.example.utils.FileHandler;
 import org.example.models.Hub;
 import org.example.models.Pokemon;
 import org.example.models.PokemonDeck;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 
 
 public class MainViewController {
     Hub hub = new Hub();
     FileHandler fileHandler = hub.getFileHandler();
+    Pokemon currentPokemon = null;
 
     @FXML private FlowPane contentPane;
     @FXML private ListView<PokemonDeck> deckList;
@@ -34,16 +38,19 @@ public class MainViewController {
 
             if (cardNode != null) {
                 Pokemon p = (Pokemon) cardNode.getUserData();
-                System.out.println(p.getName());
+                currentPokemon = p;
+                System.out.println(currentPokemon.getName());
             } else {
                 deckList.getSelectionModel().clearSelection();
                 contentPane.getChildren().clear();
+                currentPokemon = null;
             }
         });
         updateData();
     }
 
     @FXML private void updateData() {
+        fileHandler.saveDecksToFile(hub.getPokemonServices().getPokemonDecksList());
         deckList.setItems(FXCollections.observableList(hub.getPokemonServices().getPokemonDecksList()));
         deckList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -70,6 +77,8 @@ public class MainViewController {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/views/pokemon-card.fxml"));
                         Parent cardNode = fxmlLoader.load();
                         cardNode.setUserData(p);
+                        cardNode.getStyleClass().add(p.getType().get(0).toLowerCase());
+                        System.out.println(p.getName() + p.getType().get(0));
 
                         PokemonCardController controller = fxmlLoader.getController();
                         controller.setData(p);
@@ -97,32 +106,61 @@ public class MainViewController {
         result.ifPresent(name -> {
             PokemonDeck deck = new PokemonDeck(name);
             hub.getPokemonServices().getPokemonDecksList().add(deck);
-            fileHandler.saveDecksToFile(hub.getPokemonServices().getPokemonDecksList());
             updateData();
             System.out.println("Deck name: " + hub.getPokemonServices().getPokemonDecksList().get(0).getName());
         });
     }
     @FXML private void handleRemoveDeck() {
         hub.getPokemonServices().getPokemonDecksList().remove(deckList.getSelectionModel().getSelectedItem());
-        fileHandler.saveDecksToFile(hub.getPokemonServices().getPokemonDecksList());
         updateData();
+    }
+    @FXML private void handleEditDeck() {
+        PokemonDeck currentDeck = deckList.getSelectionModel().getSelectedItem();
+        String deckName = currentDeck.getName();
+
+        if (currentDeck != null) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Edit Deck");
+            dialog.setHeaderText("Enter your deck name");
+            dialog.setContentText("Name: ");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                if (!name.trim().isEmpty()) {
+                    currentDeck.setName(name);
+                    updateData();
+                } else {
+                    hub.getAlertUtils().showErrorAlert("Chybějící název!", "Prosím vyplňte nový název");
+                }
+            });
+        }
     }
 
     @FXML private void handleAddPokemonToDeck() {
         if (deckList.getSelectionModel().getSelectedItem() != null) {
             PokemonDeck currentDeck = deckList.getSelectionModel().getSelectedItem();
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Choose Pokemon");
-            dialog.setHeaderText("Enter your Pokemon name");
-            dialog.setContentText("Name: ");
+            if (currentDeck.getPokemons().size() <= 9) {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("Choose Pokemon");
+                dialog.setHeaderText("Enter your Pokemon name");
+                dialog.setContentText("Name: ");
 
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(name -> {
-                Pokemon newPokemon = hub.getPokemonServices().createPokemon(name);
-                currentDeck.getPokemons().add(newPokemon);
-                fileHandler.saveDecksToFile(hub.getPokemonServices().getPokemonDecksList());
-                updateData();
-            });
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    Pokemon newPokemon = hub.getPokemonServices().createPokemon(name);
+                    currentDeck.getPokemons().add(newPokemon);
+                    updateData();
+                });
+            } else {
+                hub.getAlertUtils().showErrorAlert("Plný deck!", "Tento deck už má maximální počet pokémonů!");
+            }
+        }
+    }
+    @FXML private void handleRemovePokemonFromDeck() {
+        if (currentPokemon != null) {
+            PokemonDeck currentDeck = deckList.getSelectionModel().getSelectedItem();
+            currentDeck.getPokemons().remove(currentPokemon);
+            updateData();
         }
     }
 

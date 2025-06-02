@@ -21,4 +21,5 @@ public class Hub {
     public FileHandler getFileHandler() {
         return fileHandler;
     }
+    public AlertUtils getAlertUtils() { return alertUtils; }
 }

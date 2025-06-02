@@ -10,12 +10,13 @@
         <VBox>
             <ListView fx:id="deckList"/>
             <HBox>
-                <Button text="add" onAction="#handleAddDeck"/>
-                <Button text="del" onAction="#handleRemoveDeck" />
+                <Button text="Create deck" onAction="#handleAddDeck"/>
+                <Button text="Edit deck" onAction="#handleEditDeck" />
+                <Button text="Remove deck" onAction="#handleRemoveDeck" />
             </HBox>
             <HBox>
                 <Button text="Add pokemon" onAction="#handleAddPokemonToDeck"/>
-                <Button text="test pokemonu v decku" onAction="#handleShowCards"/>
+                <Button text="Remove pokemon" onAction="#handleRemovePokemonFromDeck"/>
             </HBox>
         </VBox>
     </left>
