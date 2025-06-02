@@ -10,7 +10,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.FlowPane;
-import org.example.filehandler.FileHandler;
+import org.example.utils.FileHandler;
 import org.example.models.Hub;
 import org.example.models.Pokemon;
 import org.example.models.PokemonDeck;

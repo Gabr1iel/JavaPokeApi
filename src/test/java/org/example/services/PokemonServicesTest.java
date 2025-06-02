@@ -1,8 +1,8 @@
 package org.example.services;
 
 import com.google.gson.JsonSyntaxException;
-import org.example.filehandler.ApiHandler;
-import org.example.filehandler.FileHandler;
+import org.example.utils.ApiHandler;
+import org.example.utils.FileHandler;
 import org.example.models.Pokemon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package org.example.models;
 
-import org.example.filehandler.ApiHandler;
-import org.example.filehandler.FileHandler;
+import org.example.utils.ApiHandler;
+import org.example.utils.FileHandler;
 import org.example.services.PokemonServices;
 
 

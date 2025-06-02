@@ -1,6 +1,4 @@
-package org.example.filehandler;
-
-import org.example.models.Hub;
+package org.example.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

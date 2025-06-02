@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.controllers.MainViewController;
-import org.example.filehandler.ApiHandler;
-import org.example.models.Hub;
 
 import java.io.IOException;
 
